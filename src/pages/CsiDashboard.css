@@ -1,0 +1,780 @@
+/*
+ * CsiDashboard.css  — v3
+ * ─────────────────────────────────────────────────────────────────
+ * IMPORTANT: .csi-page is rendered INSIDE an existing sidebar layout.
+ * It must NOT add its own page-level padding — the sidebar wrapper
+ * already handles that. Use .csi-page only for background color and
+ * font. All spacing lives in .csi-inner.
+ *
+ * DARK MODE  → :root  (default)
+ * LIGHT MODE → [data-theme="light"] .csi-page  (or parent with that attr)
+ *
+ * HOW TO ADJUST
+ * ─────────────
+ * Dark colors   → :root block
+ * Light colors  → [data-theme="light"] .csi-page block
+ * Spacing       → :root --csi-* spacing tokens
+ * Mobile sizes  → @media (max-width:767px) :root block
+ * Breakpoint    → change "767px" in every @media rule
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 1 — DARK MODE TOKENS  (default)
+══════════════════════════════════════════════════════════════ */
+:root {
+  /* surfaces */
+  --csi-bg-page        : #080c14;
+  --csi-bg-card        : #0d1424;
+  --csi-bg-input       : #1a2234;
+  --csi-bg-row-alt     : rgba(26,34,52,0.6);
+  --csi-bg-hover       : rgba(79,70,229,0.09);
+  --csi-bg-thead       : rgba(8,12,20,0.95);
+
+  /* borders */
+  --csi-border         : #1e2d44;
+  --csi-border-input   : #2b3c55;
+  --csi-border-focus   : #6366f1;
+
+  /* text */
+  --csi-text-primary   : #e2e8f0;
+  --csi-text-sub       : #94a3b8;
+  --csi-text-muted     : #475569;
+  --csi-text-label     : #64748b;
+
+  /* brand */
+  --csi-indigo         : #4f46e5;
+  --csi-indigo-light   : #818cf8;
+  --csi-indigo-hover   : #4338ca;
+
+  /* status */
+  --csi-green          : #34d399;
+  --csi-green-bg       : rgba(52,211,153,0.10);
+  --csi-green-border   : #065f46;
+  --csi-amber          : #fbbf24;
+  --csi-amber-bg       : rgba(251,191,36,0.10);
+  --csi-amber-border   : #78350f;
+  --csi-red            : #f87171;
+  --csi-red-bg         : rgba(248,113,113,0.10);
+  --csi-red-border     : #7f1d1d;
+
+  /* fonts */
+  --csi-font-display   : 'Syne', sans-serif;
+  --csi-font-mono      : 'JetBrains Mono', monospace;
+  --csi-font-body      : 'Inter', sans-serif;
+
+  /* spacing */
+  --csi-inner-px       : 1.5rem;   /* inner content horizontal padding        */
+  --csi-inner-py       : 1.25rem;  /* inner content vertical padding          */
+  --csi-card-p         : 1.1rem;   /* card internal padding                   */
+  --csi-gap            : 0.9rem;   /* gap between cards / rows                */
+
+  /* layout */
+  --csi-left-w         : 285px;    /* left panel width in split layout        */
+
+  /* radius */
+  --csi-radius-lg      : 0.8rem;
+  --csi-radius-md      : 0.45rem;
+  --csi-radius-sm      : 0.28rem;
+
+  /* font sizes */
+  --csi-fs-title       : 1.75rem;
+  --csi-fs-section     : 0.6rem;
+  --csi-fs-body        : 0.82rem;
+  --csi-fs-small       : 0.71rem;
+  --csi-fs-xs          : 0.6rem;
+  --csi-fs-stat        : 1.8rem;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 1b — LIGHT MODE TOKEN OVERRIDES
+   Attach data-theme="light" to <html>, <body>, or the sidebar
+   wrapper — it cascades down to .csi-page automatically.
+══════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  --csi-bg-page        : #f0f4fb;
+  --csi-bg-card        : #ffffff;
+  --csi-bg-input       : #eef2f9;
+  --csi-bg-row-alt     : rgba(238,242,249,0.7);
+  --csi-bg-hover       : rgba(79,70,229,0.05);
+  --csi-bg-thead       : rgba(255,255,255,0.97);
+
+  --csi-border         : #dde3ef;
+  --csi-border-input   : #c5cfdf;
+  --csi-border-focus   : #4f46e5;
+
+  --csi-text-primary   : #1e293b;
+  --csi-text-sub       : #475569;
+  --csi-text-muted     : #94a3b8;
+  --csi-text-label     : #64748b;
+
+  --csi-indigo         : #4f46e5;
+  --csi-indigo-light   : #6366f1;
+  --csi-indigo-hover   : #4338ca;
+
+  --csi-green          : #059669;
+  --csi-green-bg       : rgba(5,150,105,0.08);
+  --csi-green-border   : #6ee7b7;
+  --csi-amber          : #b45309;
+  --csi-amber-bg       : rgba(180,83,9,0.08);
+  --csi-amber-border   : #fcd34d;
+  --csi-red            : #dc2626;
+  --csi-red-bg         : rgba(220,38,38,0.07);
+  --csi-red-border     : #fca5a5;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 2 — MOBILE OVERRIDES  (< 768px)
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  :root {
+    --csi-inner-px  : 0.75rem;
+    --csi-inner-py  : 0.75rem;
+    --csi-card-p    : 0.8rem;
+    --csi-gap       : 0.65rem;
+    --csi-fs-title  : 1.25rem;
+    --csi-fs-stat   : 1.45rem;
+    --csi-left-w    : 100%;
+  }
+  /* On mobile, fill available flex space */
+  .csi-page {
+    width     : 100%;
+    min-height: 100%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 3 — BASE RESET
+══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 4 — PAGE WRAPPER
+   .csi-page  — NO padding here (sidebar already handles outer spacing)
+   .csi-inner — adds the inner padding & limits max-width
+══════════════════════════════════════════════════════════════ */
+/* All elements inside csi-page use border-box sizing */
+.csi-page *, .csi-page *::before, .csi-page *::after {
+  box-sizing: border-box;
+}
+
+.csi-page {
+  width       : 100%;
+  min-width   : 0;
+  min-height  : 100%;
+  background  : var(--csi-bg-page);
+  color       : var(--csi-text-primary);
+  font-family : var(--csi-font-body);
+  transition  : background 0.18s, color 0.18s;
+  overflow-x  : hidden;   /* prevent horizontal page scroll on mobile */
+}
+
+/* When used as a standalone full-page (not inside sidebar) */
+.csi-page--standalone {
+  min-height: 100dvh;
+}
+
+/* Inner content wrapper */
+.csi-inner {
+  width      : 100%;
+  max-width  : var(--csi-inner-max, 100%);
+  padding    : var(--csi-inner-py) var(--csi-inner-px);
+  margin     : 0 auto;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 5 — HEADER
+══════════════════════════════════════════════════════════════ */
+.csi-header          { margin-bottom: 1rem; }
+.csi-header__eyebrow {
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-xs);
+  color          : var(--csi-indigo-light);
+  letter-spacing : 0.16em;
+  text-transform : uppercase;
+  margin         : 0 0 0.22rem;
+}
+.csi-header__title {
+  font-family    : var(--csi-font-display);
+  font-size      : var(--csi-fs-title);
+  font-weight    : 800;
+  color          : var(--csi-text-primary);
+  margin         : 0;
+  letter-spacing : -0.02em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 6 — TAB BAR
+══════════════════════════════════════════════════════════════ */
+.csi-tabs {
+  display        : flex;
+  gap            : 0.18rem;
+  background     : var(--csi-bg-card);
+  border         : 1px solid var(--csi-border);
+  border-radius  : var(--csi-radius-lg);
+  padding        : 0.2rem;
+  width          : fit-content;
+  margin-bottom  : 1.2rem;
+  overflow-x     : auto;
+  scrollbar-width: none;
+  flex-wrap      : nowrap;
+}
+.csi-tabs::-webkit-scrollbar { display: none; }
+.csi-tab {
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-small);
+  font-weight    : 600;
+  padding        : 0.42rem 1rem;
+  border-radius  : 0.5rem;
+  border         : none;
+  cursor         : pointer;
+  transition     : background 0.14s, color 0.14s;
+  white-space    : nowrap;
+  color          : var(--csi-text-sub);
+  background     : transparent;
+}
+.csi-tab:hover       { background: rgba(99,102,241,0.08); color: var(--csi-text-primary); }
+.csi-tab--active     { background: var(--csi-indigo); color: white; box-shadow: 0 2px 10px rgba(79,70,229,0.28); }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 7 — CARD
+══════════════════════════════════════════════════════════════ */
+.csi-card {
+  background     : var(--csi-bg-card);
+  border         : 1px solid var(--csi-border);
+  border-radius  : var(--csi-radius-lg);
+  padding        : var(--csi-card-p);
+}
+.csi-section-label {
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-section);
+  color          : var(--csi-text-label);
+  text-transform : uppercase;
+  letter-spacing : 0.14em;
+  margin         : 0 0 0.7rem;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 8 — FILTER BAR
+══════════════════════════════════════════════════════════════ */
+.csi-filter-bar {
+  background     : var(--csi-bg-card);
+  border         : 1px solid var(--csi-border);
+  border-radius  : var(--csi-radius-lg);
+  padding        : 0.8rem var(--csi-card-p);
+  margin-bottom  : var(--csi-gap);
+  display        : flex;
+  flex-wrap      : wrap;
+  gap            : 0.6rem;
+  align-items    : flex-end;
+}
+.csi-filter-group  { display: flex; flex-direction: column; gap: 0.25rem; }
+.csi-filter-label  {
+  font-family    : var(--csi-font-mono);
+  font-size      : 0.56rem;
+  color          : var(--csi-text-muted);
+  text-transform : uppercase;
+  letter-spacing : 0.12em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 9 — INPUTS
+══════════════════════════════════════════════════════════════ */
+.csi-input {
+  background     : var(--csi-bg-input);
+  border         : 1px solid var(--csi-border-input);
+  color          : var(--csi-text-primary);
+  font-size      : var(--csi-fs-small);
+  font-family    : var(--csi-font-body);
+  border-radius  : var(--csi-radius-md);
+  padding        : 0.4rem 0.7rem;
+  outline        : none;
+  transition     : border-color 0.14s, box-shadow 0.14s;
+}
+.csi-input:focus {
+  border-color   : var(--csi-border-focus);
+  box-shadow     : 0 0 0 2px rgba(99,102,241,0.12);
+}
+.csi-input::placeholder { color: var(--csi-text-muted); }
+.csi-input[type="number"]::-webkit-inner-spin-button,
+.csi-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.csi-input[type="number"] { -moz-appearance: textfield; }
+.csi-search { min-width: 180px; width: 200px; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 10 — PILL TOGGLES
+══════════════════════════════════════════════════════════════ */
+.csi-pill-group {
+  display: flex;
+  border-radius  : var(--csi-radius-md);
+  overflow       : hidden;
+  border         : 1px solid var(--csi-border-input);
+}
+.csi-pill {
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-xs);
+  padding        : 0.38rem 0.75rem;
+  background     : var(--csi-bg-input);
+  border         : none;
+  color          : var(--csi-text-sub);
+  cursor         : pointer;
+  transition     : background 0.12s, color 0.12s;
+  white-space    : nowrap;
+}
+.csi-pill:hover   { background: rgba(99,102,241,0.1); color: var(--csi-text-primary); }
+.csi-pill--active { background: var(--csi-indigo); color: white; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 11 — BUTTONS
+══════════════════════════════════════════════════════════════ */
+.csi-btn-primary {
+  font-family : var(--csi-font-mono);
+  font-size   : var(--csi-fs-small);
+  font-weight : 600;
+  background  : var(--csi-indigo);
+  color       : white;
+  border      : none;
+  border-radius: var(--csi-radius-md);
+  padding     : 0.42rem 1rem;
+  cursor      : pointer;
+  transition  : background 0.14s;
+  white-space : nowrap;
+  align-self  : flex-end;
+}
+.csi-btn-primary:hover    { background: var(--csi-indigo-hover); }
+.csi-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.csi-btn-ghost {
+  font-family  : var(--csi-font-mono);
+  font-size    : var(--csi-fs-xs);
+  background   : var(--csi-bg-input);
+  color        : var(--csi-text-sub);
+  border       : 1px solid var(--csi-border-input);
+  border-radius: var(--csi-radius-md);
+  padding      : 0.38rem 0.75rem;
+  cursor       : pointer;
+  transition   : background 0.12s, color 0.12s;
+  white-space  : nowrap;
+  align-self   : flex-end;
+}
+.csi-btn-ghost:hover { background: rgba(99,102,241,0.1); color: var(--csi-text-primary); }
+
+.csi-btn-excel {
+  font-family  : var(--csi-font-mono);
+  font-size    : var(--csi-fs-xs);
+  font-weight  : 600;
+  background   : rgba(5,150,105,0.12);
+  color        : #34d399;
+  border       : 1px solid rgba(52,211,153,0.22);
+  border-radius: var(--csi-radius-md);
+  padding      : 0.38rem 0.75rem;
+  cursor       : pointer;
+  transition   : background 0.14s;
+  white-space  : nowrap;
+  align-self   : flex-end;
+  display      : flex;
+  align-items  : center;
+  gap          : 0.3rem;
+}
+.csi-btn-excel:hover { background: rgba(52,211,153,0.18); }
+
+/* PCT filter toggle */
+.csi-pct-toggle {
+  font-family  : var(--csi-font-mono);
+  font-size    : var(--csi-fs-xs);
+  padding      : 0.36rem 0.7rem;
+  border-radius: var(--csi-radius-md);
+  border       : 1px solid var(--csi-border-input);
+  background   : var(--csi-bg-input);
+  color        : var(--csi-text-sub);
+  cursor       : pointer;
+  transition   : all 0.12s;
+  white-space  : nowrap;
+}
+.csi-pct-toggle:hover            { background: rgba(99,102,241,0.1); }
+.csi-pct-toggle--below           { color: var(--csi-red);   border-color: var(--csi-red-border);   background: var(--csi-red-bg);   }
+.csi-pct-toggle--above           { color: var(--csi-green); border-color: var(--csi-green-border); background: var(--csi-green-bg); }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 12 — STAT CARDS GRID
+══════════════════════════════════════════════════════════════ */
+.csi-stats-grid {
+  display              : grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap                  : var(--csi-gap);
+  margin-bottom        : var(--csi-gap);
+}
+@media (max-width: 900px)  { .csi-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px)  { .csi-stats-grid { grid-template-columns: 1fr 1fr; } }
+
+.csi-stat-card {
+  background   : var(--csi-bg-card);
+  border       : 1px solid var(--csi-border);
+  border-radius: var(--csi-radius-lg);
+  padding      : var(--csi-card-p);
+}
+.csi-stat-label {
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-section);
+  color          : var(--csi-text-label);
+  text-transform : uppercase;
+  letter-spacing : 0.1em;
+  margin         : 0 0 0.28rem;
+}
+.csi-stat-value {
+  font-family : var(--csi-font-display);
+  font-size   : var(--csi-fs-stat);
+  font-weight : 800;
+  margin      : 0;
+  line-height : 1;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 13 — DATA TABLE
+══════════════════════════════════════════════════════════════ */
+.csi-table-wrap   { background: var(--csi-bg-card); border: 1px solid var(--csi-border); border-radius: var(--csi-radius-lg); overflow: hidden; }
+.csi-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.csi-table        { width: 100%; border-collapse: collapse; font-size: var(--csi-fs-body); }
+
+.csi-table thead tr { background: var(--csi-bg-thead); border-bottom: 2px solid var(--csi-border); }
+.csi-table th {
+  padding        : 0.65rem 0.8rem;
+  text-align     : left;
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-xs);
+  font-weight    : 600;
+  color          : var(--csi-text-sub);
+  text-transform : uppercase;
+  letter-spacing : 0.07em;
+  white-space    : nowrap;
+  cursor         : pointer;
+  user-select    : none;
+  transition     : color 0.1s;
+}
+.csi-table th:hover  { color: var(--csi-text-primary); }
+.csi-table th.no-sort { cursor: default; }
+.csi-table th.no-sort:hover { color: var(--csi-text-sub); }
+
+.csi-table tbody tr  { border-top: 1px solid var(--csi-border); transition: background 0.1s; }
+.csi-table tbody tr:hover { background: var(--csi-bg-hover); cursor: pointer; }
+.csi-table tbody tr.alt   { background: var(--csi-bg-row-alt); }
+.csi-table tbody tr.alt:hover { background: var(--csi-bg-hover); }
+.csi-table tbody tr.no-click { cursor: default; }
+.csi-table td { padding: 0.58rem 0.8rem; white-space: nowrap; }
+
+.csi-table-empty {
+  text-align  : center;
+  padding     : 3rem 1rem;
+  color       : var(--csi-text-muted);
+  font-family : var(--csi-font-mono);
+  font-size   : var(--csi-fs-small);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 14 — BADGES
+══════════════════════════════════════════════════════════════ */
+.csi-badge {
+  display        : inline-block;
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-xs);
+  font-weight    : 600;
+  border-radius  : 2rem;
+  padding        : 0.15rem 0.52rem;
+  border         : 1px solid;
+  white-space    : nowrap;
+}
+.csi-badge--present { background: var(--csi-green-bg);  color: var(--csi-green);  border-color: var(--csi-green-border); }
+.csi-badge--awp     { background: var(--csi-amber-bg);  color: var(--csi-amber);  border-color: var(--csi-amber-border); }
+.csi-badge--awop    { background: var(--csi-red-bg);    color: var(--csi-red);    border-color: var(--csi-red-border);   }
+.csi-badge--neutral { background: var(--csi-bg-input);  color: var(--csi-text-sub); border-color: var(--csi-border-input); }
+.csi-badge--indigo  { background: rgba(79,70,229,0.1);  color: var(--csi-indigo-light); border-color: rgba(99,102,241,0.22); }
+.csi-badge--alumni  { background: #451a03; color: #fbbf24; border-color: #92400e; }
+
+.csi-pct-badge {
+  display        : inline-block;
+  font-family    : var(--csi-font-mono);
+  font-size      : var(--csi-fs-xs);
+  font-weight    : 700;
+  border-radius  : var(--csi-radius-sm);
+  padding        : 0.16rem 0.48rem;
+  border         : 1px solid;
+}
+.csi-pct-badge--good { background: rgba(52,211,153,0.11); color: #34d399; border-color: #065f46; }
+.csi-pct-badge--mid  { background: rgba(251,191,36,0.11); color: #fbbf24; border-color: #78350f; }
+.csi-pct-badge--low  { background: rgba(248,113,113,0.11);color: #f87171; border-color: #7f1d1d; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 15 — SPLIT LAYOUT
+══════════════════════════════════════════════════════════════ */
+.csi-split {
+  display     : flex;
+  gap         : var(--csi-gap);
+  align-items : flex-start;
+  width       : 100%;
+  min-width   : 0;
+}
+.csi-split__left {
+  width        : var(--csi-left-w);
+  flex-shrink  : 0;
+  display      : flex;
+  flex-direction: column;
+  gap          : var(--csi-gap);
+  min-width    : 0;
+}
+.csi-split__right {
+  flex          : 1;
+  min-width     : 0;          /* critical — prevents flex child from overflowing */
+  display       : flex;
+  flex-direction: column;
+  gap           : var(--csi-gap);
+}
+@media (max-width: 767px) {
+  .csi-split       { flex-direction: column; }
+  .csi-split__left { width: 100%; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 16 — META LIST
+══════════════════════════════════════════════════════════════ */
+.csi-meta-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.csi-meta-row  { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4rem; }
+.csi-meta-key  { font-family: var(--csi-font-mono); font-size: var(--csi-fs-xs); color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.07em; flex-shrink: 0; }
+.csi-meta-val  { font-family: var(--csi-font-mono); font-size: var(--csi-fs-small); color: var(--csi-text-primary); text-align: right; word-break: break-word; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 17 — STRENGTH DISPLAY
+══════════════════════════════════════════════════════════════ */
+.csi-strength-nums      { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 0.6rem; }
+.csi-strength-num       { text-align: center; }
+.csi-strength-num__val  { font-family: var(--csi-font-display); font-size: var(--csi-fs-stat); font-weight: 800; margin: 0; line-height: 1; }
+.csi-strength-num__label{ font-family: var(--csi-font-mono); font-size: var(--csi-fs-xs); color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.06em; }
+.csi-strength-divider   { color: var(--csi-border-input); font-size: 1.3rem; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 18 — TRIBAR
+══════════════════════════════════════════════════════════════ */
+.csi-tribar           { display: flex; height: 4px; width: 100%; border-radius: 999px; overflow: hidden; gap: 1px; background: var(--csi-bg-input); }
+.csi-tribar__present  { background: #10b981; transition: width 0.4s; }
+.csi-tribar__awp      { background: #f59e0b; transition: width 0.4s; }
+.csi-tribar__awop     { background: #ef4444; transition: width 0.4s; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 19 — LEGEND
+══════════════════════════════════════════════════════════════ */
+.csi-legend      { display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; }
+.csi-legend-item { display: flex; align-items: center; gap: 0.32rem; font-family: var(--csi-font-mono); font-size: var(--csi-fs-xs); color: var(--csi-text-muted); }
+.csi-legend-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 20 — EMPTY STATE
+══════════════════════════════════════════════════════════════ */
+.csi-empty       { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 1rem; text-align: center; gap: 0.45rem; }
+.csi-empty__icon { font-size: 2rem; }
+.csi-empty__text { font-family: var(--csi-font-mono); font-size: var(--csi-fs-small); color: var(--csi-text-muted); max-width: 240px; line-height: 1.55; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 21 — MODAL
+══════════════════════════════════════════════════════════════ */
+.csi-modal-backdrop {
+  position             : fixed;
+  inset                : 0;
+  z-index              : 9999;
+  display              : flex;
+  align-items          : center;
+  justify-content      : center;
+  background           : rgba(0,0,0,0.7);
+  backdrop-filter      : blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding              : 1rem;
+}
+.csi-modal {
+  background    : var(--csi-bg-card);
+  border        : 1px solid var(--csi-border);
+  border-radius : var(--csi-radius-lg);
+  box-shadow    : 0 24px 55px rgba(0,0,0,0.6);
+  width         : 100%;
+  max-width     : 760px;
+  max-height    : 90vh;
+  display       : flex;
+  flex-direction: column;
+  overflow      : hidden;
+}
+.csi-modal__header {
+  padding        : 0.9rem 1.25rem;
+  border-bottom  : 1px solid var(--csi-border);
+  display        : flex;
+  justify-content: space-between;
+  align-items    : flex-start;
+  flex-shrink    : 0;
+}
+.csi-modal__body    { overflow-y: auto; flex: 1; padding: 0.9rem 1.25rem; }
+.csi-modal__close   { background: none; border: none; color: var(--csi-text-label); font-size: 1.35rem; cursor: pointer; line-height: 1; padding: 0 0.18rem; flex-shrink: 0; transition: color 0.12s; }
+.csi-modal__close:hover { color: var(--csi-text-primary); }
+.csi-modal__datebar {
+  padding        : 0.45rem 1.25rem;
+  border-bottom  : 1px solid var(--csi-border);
+  display        : flex;
+  align-items    : center;
+  gap            : 0.5rem;
+  flex-wrap      : wrap;
+  background     : var(--csi-bg-input);
+  flex-shrink    : 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 22 — AVATAR
+══════════════════════════════════════════════════════════════ */
+.csi-avatar {
+  border-radius  : 50%;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-family    : var(--csi-font-display);
+  font-weight    : 800;
+  flex-shrink    : 0;
+  border         : 2px solid var(--csi-border-input);
+  background     : var(--csi-bg-input);
+  color          : var(--csi-text-sub);
+  transition     : background 0.12s;
+}
+.csi-avatar--active { background: var(--csi-indigo); border-color: rgba(99,102,241,0.4); color: white; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 23 — SEARCH LIST (Cadet Profile)
+══════════════════════════════════════════════════════════════ */
+.csi-search-list  { background: var(--csi-bg-card); border: 1px solid var(--csi-border); border-radius: var(--csi-radius-lg); overflow: hidden; }
+.csi-search-item  {
+  display      : flex;
+  align-items  : center;
+  gap          : 0.65rem;
+  width        : 100%;
+  text-align   : left;
+  background   : none;
+  border       : none;
+  border-bottom: 1px solid var(--csi-border);
+  padding      : 0.65rem 0.9rem;
+  cursor       : pointer;
+  transition   : background 0.1s;
+}
+.csi-search-item:hover         { background: rgba(99,102,241,0.05); }
+.csi-search-item--selected     { background: rgba(79,70,229,0.1); border-left: 2px solid var(--csi-indigo); }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 24 — MINI STATS (inside popups / profile)
+══════════════════════════════════════════════════════════════ */
+.csi-mini-stats       { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+.csi-mini-stat        { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-md); padding: 0.65rem; }
+.csi-mini-stat__label { font-family: var(--csi-font-mono); font-size: var(--csi-fs-xs); color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.15rem; }
+.csi-mini-stat__val   { font-family: var(--csi-font-display); font-size: 1.45rem; font-weight: 700; margin: 0; line-height: 1; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 25 — CADET INFO GRID (profile fields)
+══════════════════════════════════════════════════════════════ */
+.csi-profile-grid {
+  display              : grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap                  : 0.5rem;
+}
+@media (max-width: 900px) { .csi-profile-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .csi-profile-grid { grid-template-columns: 1fr 1fr; } }
+
+.csi-profile-field          { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-sm); padding: 0.5rem 0.65rem; }
+.csi-profile-field__key     { font-family: var(--csi-font-mono); font-size: 0.55rem; color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 0.12rem; }
+.csi-profile-field__val     { font-family: var(--csi-font-body); font-size: var(--csi-fs-small); color: var(--csi-text-primary); font-weight: 500; margin: 0; word-break: break-word; white-space: normal; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 26 — REPORT CARDS
+══════════════════════════════════════════════════════════════ */
+.csi-report-card         { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-md); padding: 0.65rem; margin-bottom: 0.4rem; cursor: pointer; transition: background 0.12s; }
+.csi-report-card:hover   { background: rgba(99,102,241,0.08); }
+.csi-report-card--pending          { background: rgba(127,29,29,0.1); border-color: #7f1d1d; cursor: default; }
+.csi-report-card--pending:hover    { background: rgba(127,29,29,0.1); }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 27 — LOADING / ERROR
+══════════════════════════════════════════════════════════════ */
+.csi-loading { text-align: center; padding: 2.5rem 1rem; color: var(--csi-text-muted); font-family: var(--csi-font-mono); font-size: var(--csi-fs-small); animation: csiPulse 1.4s ease-in-out infinite; }
+.csi-error   { background: var(--csi-red-bg); border: 1px solid var(--csi-red-border); color: var(--csi-red); font-family: var(--csi-font-mono); font-size: var(--csi-fs-small); border-radius: var(--csi-radius-md); padding: 0.6rem 0.85rem; margin-bottom: var(--csi-gap); line-height: 1.5; }
+@keyframes csiPulse { 0%,100%{opacity:1;} 50%{opacity:0.38;} }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 28 — SCROLLBAR
+══════════════════════════════════════════════════════════════ */
+.csi-page ::-webkit-scrollbar       { width: 4px; height: 4px; }
+.csi-page ::-webkit-scrollbar-track { background: transparent; }
+.csi-page ::-webkit-scrollbar-thumb { background: var(--csi-border-input); border-radius: 2px; }
+.csi-page ::-webkit-scrollbar-thumb:hover { background: var(--csi-text-muted); }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION 29 — PARADE HISTORY SORT DROPDOWN
+   Small dropdown pill that appears when clicking column header
+══════════════════════════════════════════════════════════════ */
+.csi-th-sort-wrap {
+  position   : relative;
+  display    : inline-block;
+}
+.csi-sort-menu {
+  position   : absolute;
+  top        : calc(100% + 4px);
+  left       : 0;
+  z-index    : 200;
+  background : var(--csi-bg-card);
+  border     : 1px solid var(--csi-border);
+  border-radius: var(--csi-radius-md);
+  box-shadow : 0 8px 24px rgba(0,0,0,0.35);
+  min-width  : 160px;
+  max-width  : min(260px, 90vw);
+  overflow   : hidden;
+}
+/* Last columns open menu leftward so it doesn't overflow right edge */
+th:nth-last-child(-n+2) .csi-sort-menu {
+  left: auto;
+  right: 0;
+}
+.csi-sort-menu-item {
+  width      : 100%;
+  text-align : left;
+  background : none;
+  border     : none;
+  padding    : 0.5rem 0.85rem;
+  font-family: var(--csi-font-mono);
+  font-size  : var(--csi-fs-xs);
+  color      : var(--csi-text-sub);
+  cursor     : pointer;
+  transition : background 0.1s, color 0.1s;
+  display    : flex;
+  align-items: center;
+  gap        : 0.5rem;
+  white-space: nowrap;
+}
+.csi-sort-menu-item:hover       { background: var(--csi-bg-hover); color: var(--csi-text-primary); }
+.csi-sort-menu-item--active     { color: var(--csi-indigo-light); }
+.csi-sort-menu-divider          { height: 1px; background: var(--csi-border); margin: 0.2rem 0; }
+/* date range picker inside dropdown */
+.csi-sort-menu-datepick {
+  padding    : 0.5rem 0.85rem;
+  display    : flex;
+  flex-direction: column;
+  gap        : 0.35rem;
+}
+.csi-sort-menu-datepick label {
+  font-family: var(--csi-font-mono);
+  font-size  : 0.55rem;
+  color      : var(--csi-text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 28 — Promotions + AdminDesk theme bridge (bp-page)
+   These classes allow BatchPromotion.jsx and AdminDesk.jsx to
+   inherit the same light/dark token system as CsiDashboard.
+════════════════════════════════════════════════════════════════ */
+.bp-page {
+  background   : var(--csi-bg-page);
+  color        : var(--csi-text-primary);
+  min-height   : 100vh;
+  padding      : 1.5rem;
+  transition   : background 0.2s, color 0.2s;
+}

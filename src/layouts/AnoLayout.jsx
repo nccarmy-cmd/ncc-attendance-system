@@ -209,7 +209,7 @@ const STYLES = `
   }
   .al-hamburger:hover { background:var(--csi-bg-input); }
 
-  /* ── Topbar settings button (mobile always visible) ── */
+  /* ── Topbar settings button ── */
   .al-topbar-settings {
     background     : none;
     border         : none;
@@ -220,7 +220,9 @@ const STYLES = `
     border-radius  : 0.35rem;
     line-height    : 1;
     flex-shrink    : 0;
-    display        : none;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
     transition     : background .12s, color .12s;
   }
   .al-topbar-settings:hover { background:var(--csi-bg-input); }
@@ -260,9 +262,8 @@ const STYLES = `
       backdrop-filter: blur(2px);
     }
 
-    /* Show hamburger + topbar settings */
-    .al-hamburger         { display:flex; align-items:center; justify-content:center; }
-    .al-topbar-settings   { display:flex; align-items:center; justify-content:center; }
+    /* Show hamburger */
+    .al-hamburger { display:flex; align-items:center; justify-content:center; }
 
     /* Bottom nav visible */
     .al-bottomnav { display:flex; }
@@ -530,6 +531,17 @@ export default function AnoLayout() {
         </nav>
 
       </div>
+
+      {/* ════ SETTINGS PANEL ════ */}
+      {settingsOpen && (
+        <SettingsPanel
+          role="ano"
+          currentPage={currentPage}
+          onNavigate={(page) => { goTo(page); setSettingsOpen(false); }}
+          onLogout={handleLogout}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
     </>
   );
 }

@@ -167,7 +167,7 @@
   color       : var(--csi-text-primary);
   font-family : var(--csi-font-body);
   transition  : background 0.18s, color 0.18s;
-  overflow-x  : hidden;   /* prevent horizontal page scroll on mobile */
+  overflow-x  : clip;     /* clip page overflow but allow child scroll contexts */
 }
 
 /* When used as a standalone full-page (not inside sidebar) */
@@ -433,7 +433,7 @@
 /* ══════════════════════════════════════════════════════════════
    SECTION 13 — DATA TABLE
 ══════════════════════════════════════════════════════════════ */
-.csi-table-wrap   { background: var(--csi-bg-card); border: 1px solid var(--csi-border); border-radius: var(--csi-radius-lg); overflow: hidden; }
+.csi-table-wrap   { background: var(--csi-bg-card); border: 1px solid var(--csi-border); border-radius: var(--csi-radius-lg); overflow: clip; }
 .csi-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .csi-table        { width: 100%; min-width: 580px; border-collapse: collapse; font-size: var(--csi-fs-body); }
 
@@ -595,10 +595,25 @@
   box-shadow    : 0 24px 55px rgba(0,0,0,0.6);
   width         : 100%;
   max-width     : 760px;
-  max-height    : 90vh;
+  max-height    : 92vh;
   display       : flex;
   flex-direction: column;
   overflow      : hidden;
+}
+@media (max-width: 768px) {
+  .csi-modal {
+    max-width     : 100vw;
+    max-height    : 88vh;
+    border-radius : 16px 16px 0 0;
+    margin-top    : auto;
+  }
+  .csi-modal-backdrop {
+    align-items   : flex-end;
+  }
+  .csi-modal__body {
+    overflow-x    : auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 .csi-modal__header {
   padding        : 0.9rem 1.25rem;
@@ -608,7 +623,7 @@
   align-items    : flex-start;
   flex-shrink    : 0;
 }
-.csi-modal__body    { overflow-y: auto; flex: 1; padding: 0.9rem 1.25rem; }
+.csi-modal__body    { overflow-y: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; flex: 1; padding: 0.9rem 1.25rem; }
 .csi-modal__close   { background: none; border: none; color: var(--csi-text-label); font-size: 1.35rem; cursor: pointer; line-height: 1; padding: 0 0.18rem; flex-shrink: 0; transition: color 0.12s; }
 .csi-modal__close:hover { color: var(--csi-text-primary); }
 .csi-modal__datebar {
@@ -663,7 +678,7 @@
 /* ══════════════════════════════════════════════════════════════
    SECTION 24 — MINI STATS (inside popups / profile)
 ══════════════════════════════════════════════════════════════ */
-.csi-mini-stats       { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+.csi-mini-stats       { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; min-width: 0; width: 100%; }
 .csi-mini-stat        { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-md); padding: 0.65rem; }
 .csi-mini-stat__label { font-family: var(--csi-font-mono); font-size: var(--csi-fs-xs); color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.15rem; }
 .csi-mini-stat__val   { font-family: var(--csi-font-display); font-size: 1.45rem; font-weight: 700; margin: 0; line-height: 1; }

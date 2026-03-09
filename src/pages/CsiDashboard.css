@@ -609,10 +609,18 @@
   }
   .csi-modal-backdrop {
     align-items   : flex-end;
+    padding       : 0 !important;
   }
   .csi-modal__body {
     overflow-x    : auto;
     -webkit-overflow-scrolling: touch;
+    padding       : 0.7rem 0.85rem;
+  }
+  .csi-modal__header {
+    padding       : 0.7rem 0.85rem;
+  }
+  .csi-card {
+    padding       : 0.75rem !important;
   }
 }
 .csi-modal__header {
@@ -693,10 +701,11 @@
 }
 @media (max-width: 900px) { .csi-profile-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) { .csi-profile-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 380px) { .csi-profile-grid { grid-template-columns: 1fr; } }
 
-.csi-profile-field          { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-sm); padding: 0.5rem 0.65rem; }
+.csi-profile-field          { background: var(--csi-bg-input); border: 1px solid var(--csi-border-input); border-radius: var(--csi-radius-sm); padding: 0.5rem 0.65rem; min-width: 0; overflow: hidden; }
 .csi-profile-field__key     { font-family: var(--csi-font-mono); font-size: 0.55rem; color: var(--csi-text-label); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 0.12rem; }
-.csi-profile-field__val     { font-family: var(--csi-font-body); font-size: var(--csi-fs-small); color: var(--csi-text-primary); font-weight: 500; margin: 0; word-break: break-word; white-space: normal; }
+.csi-profile-field__val     { font-family: var(--csi-font-body); font-size: var(--csi-fs-small); color: var(--csi-text-primary); font-weight: 500; margin: 0; word-break: break-all; white-space: normal; overflow-wrap: break-word; }
 
 /* ══════════════════════════════════════════════════════════════
    SECTION 26 — REPORT CARDS

@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 /* ═══════════════════════════════════════════════════════════
    SENIOR ATTENDANCE
    Props:
-     userProfile  { assigned_division, assigned_category }
+     userProfile  { assigned_division }   — no category restriction, senior sees all categories in their division
      parade       { id, parade_date, session, status,
                     categories[], parade_type_map{},
                     parade_instructions, ano_remarks }
@@ -168,12 +168,22 @@ const STYLES = `
     background: var(--csi-bg-card);
     border: 1px solid var(--csi-border);
     border-radius: 10px;
-    overflow: hidden;
+    overflow: clip;
     margin-bottom: 18px;
+  }
+  .sa-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .sa-table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
+  }
+  /* On mobile hide enrollment col — too long, save space */
+  @media (max-width: 480px) {
+    .sa-col-enroll { display: none; }
+    .sa-table { min-width: unset; }
   }
   .sa-table th {
     background: var(--csi-bg-input);
@@ -603,55 +613,57 @@ export default function SeniorAttendance({ userProfile, parade }) {
         </div>
       ) : (
         <div className="sa-table-wrap">
-          {visibleCadets.length === 0 ? (
-            <div className="sa-empty">No cadets match this filter.</div>
-          ) : (
-            <table className="sa-table">
-              <thead>
-                <tr>
-                  <th>Enrollment</th>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th style={{ textAlign:"center" }}>Mark Present</th>
-                </tr>
-              </thead>
-              <tbody>
-                {visibleCadets.map(c => {
-                  const perm   = getPermission(c.id);
-                  const status = getStatus(c.id);
-                  const locked = !!perm || isLocked || (hasExisting && !editMode);
+          <div className="sa-table-scroll">
+            {visibleCadets.length === 0 ? (
+              <div className="sa-empty">No cadets match this filter.</div>
+            ) : (
+              <table className="sa-table">
+                <thead>
+                  <tr>
+                    <th className="sa-col-enroll">Enrollment</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th style={{ textAlign:"center" }}>Mark Present</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {visibleCadets.map(c => {
+                    const perm   = getPermission(c.id);
+                    const status = getStatus(c.id);
+                    const locked = !!perm || isLocked || (hasExisting && !editMode);
 
-                  return (
-                    <tr key={c.id} className={perm ? "sa-row--perm" : ""}>
-                      <td><span className="sa-enroll">{c.enrollment_no}</span></td>
-                      <td>
-                        <span style={{ fontWeight:500 }}>{c.name}</span>
-                        {perm && <div className="sa-perm-reason">📋 {perm.reason}</div>}
-                      </td>
-                      <td>
-                        <span className={`sa-status-badge sa-status-badge--${status.toLowerCase() === "permission" ? "permission" : status.toLowerCase()}`}>
-                          {status === "PERMISSION" ? "On Leave" : status.charAt(0)+status.slice(1).toLowerCase()}
-                        </span>
-                      </td>
-                      <td style={{ textAlign:"center" }}>
-                        {perm ? (
-                          <span style={{ color:"var(--csi-text-muted)", fontSize:"0.75rem" }}>—</span>
-                        ) : (
-                          <label className="sa-toggle">
-                            <input type="checkbox"
-                              checked={!!attendance[c.id]}
-                              disabled={locked}
-                              onChange={() => togglePresent(c.id)} />
-                            <span className="sa-toggle-slider" />
-                          </label>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
+                    return (
+                      <tr key={c.id} className={perm ? "sa-row--perm" : ""}>
+                        <td className="sa-col-enroll"><span className="sa-enroll">{c.enrollment_no}</span></td>
+                        <td>
+                          <span style={{ fontWeight:500 }}>{c.name}</span>
+                          {perm && <div className="sa-perm-reason">📋 {perm.reason}</div>}
+                        </td>
+                        <td>
+                          <span className={`sa-status-badge sa-status-badge--${status.toLowerCase() === "permission" ? "permission" : status.toLowerCase()}`}>
+                            {status === "PERMISSION" ? "On Leave" : status.charAt(0)+status.slice(1).toLowerCase()}
+                          </span>
+                        </td>
+                        <td style={{ textAlign:"center" }}>
+                          {perm ? (
+                            <span style={{ color:"var(--csi-text-muted)", fontSize:"0.75rem" }}>—</span>
+                          ) : (
+                            <label className="sa-toggle">
+                              <input type="checkbox"
+                                checked={!!attendance[c.id]}
+                                disabled={locked}
+                                onChange={() => togglePresent(c.id)} />
+                              <span className="sa-toggle-slider" />
+                            </label>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       )}
 

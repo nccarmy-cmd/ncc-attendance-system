@@ -395,7 +395,8 @@ function TabBatchPromotion() {
 
           {/* Table */}
           <div style={{ background: "var(--csi-bg-card)", border: "1px solid var(--csi-bg-input)", borderRadius: "1rem", overflow: "hidden" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+            <table style={{ width: "100%", minWidth: "640px", borderCollapse: "collapse", fontSize: "0.82rem" }}>
               <thead>
                 <tr style={{ background: "var(--csi-bg-input)" }}>
                   {[
@@ -465,6 +466,7 @@ function TabBatchPromotion() {
                 })}
               </tbody>
             </table>
+          </div>
           </div>
         </>
       )}
@@ -773,6 +775,13 @@ const EMPTY_FORM = {
   camps_attended: "", national_camps: "", achievement_links: "", id_photo_link: "",
 };
 
+/* ── Shared form style constants — module scope so Field + TabNewIntake both access ── */
+const inputStyle    = { background: "var(--csi-bg-input)", border: "1px solid var(--csi-border-input)", color: "var(--csi-text-primary)", fontSize: "0.82rem", borderRadius: "0.5rem", padding: "0.5rem 0.75rem", width: "100%", boxSizing: "border-box" };
+const inputErrStyle = { ...inputStyle, borderColor: "#ef4444" };
+const labelStyle    = { ...MONO, fontSize: "0.62rem", color: "var(--csi-text-muted)", textTransform: "uppercase", marginBottom: "0.3rem", display: "block" };
+const hintStyle     = { ...MONO, fontSize: "0.58rem", color: "var(--csi-text-muted)", marginTop: "0.2rem" };
+const errStyle      = { ...MONO, fontSize: "0.6rem", color: "#f87171", marginTop: "0.2rem" };
+
 /* ── Field wrapper — defined OUTSIDE TabNewIntake to prevent remount on rerender ── */
 function Field({ label, hint, error, children }) {
   return (
@@ -1029,11 +1038,7 @@ function TabNewIntake() {
   }
 
   /* ── Styles ── */
-  const inputStyle = { background: "var(--csi-bg-input)", border: "1px solid var(--csi-border-input)", color: "var(--csi-text-primary)", fontSize: "0.82rem", borderRadius: "0.5rem", padding: "0.5rem 0.75rem", width: "100%", boxSizing: "border-box" };
-  const inputErrStyle = { ...inputStyle, borderColor: "#ef4444" };
-  const labelStyle = { ...MONO, fontSize: "0.62rem", color: "var(--csi-text-muted)", textTransform: "uppercase", marginBottom: "0.3rem", display: "block" };
-  const hintStyle = { ...MONO, fontSize: "0.58rem", color: "var(--csi-text-muted)", marginTop: "0.2rem" };
-  const errStyle = { ...MONO, fontSize: "0.6rem", color: "#f87171", marginTop: "0.2rem" };
+  /* styles moved to module scope — see above TabNewIntake */
 
   /* ── Registration form fields ── */
   const REGISTER_FIELDS = [

@@ -271,7 +271,8 @@ const STYLES = `
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--csi-border) transparent;
     width: 100%;

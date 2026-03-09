@@ -209,12 +209,30 @@ const STYLES = `
   }
   .al-hamburger:hover { background:var(--csi-bg-input); }
 
+  /* ── Topbar settings button (mobile always visible) ── */
+  .al-topbar-settings {
+    background     : none;
+    border         : none;
+    color          : var(--csi-text-sub);
+    font-size      : 1.2rem;
+    cursor         : pointer;
+    padding        : 0.3rem 0.4rem;
+    border-radius  : 0.35rem;
+    line-height    : 1;
+    flex-shrink    : 0;
+    display        : none;
+    transition     : background .12s, color .12s;
+  }
+  .al-topbar-settings:hover { background:var(--csi-bg-input); }
+  .al-topbar-settings--on   { color:var(--csi-indigo-light); background:rgba(79,70,229,.1); }
+
   /* ── Content ── */
   .al-content {
     flex         : 1;
     overflow-y   : auto;
-    overflow-x   : hidden;
+    overflow-x   : auto;
     min-height   : 0;
+    -webkit-overflow-scrolling : touch;
   }
   .al-content::-webkit-scrollbar       { width:5px; }
   .al-content::-webkit-scrollbar-track { background:transparent; }
@@ -242,8 +260,9 @@ const STYLES = `
       backdrop-filter: blur(2px);
     }
 
-    /* Show hamburger */
-    .al-hamburger { display:flex; align-items:center; justify-content:center; }
+    /* Show hamburger + topbar settings */
+    .al-hamburger         { display:flex; align-items:center; justify-content:center; }
+    .al-topbar-settings   { display:flex; align-items:center; justify-content:center; }
 
     /* Bottom nav visible */
     .al-bottomnav { display:flex; }
@@ -481,6 +500,14 @@ export default function AnoLayout() {
                 {NAV.find(n => n.id === currentPage)?.short}
               </span>
             )}
+
+            {/* ⚙️ Settings — always visible in topbar on mobile */}
+            <button
+              className={`al-topbar-settings${settingsOpen ? " al-topbar-settings--on" : ""}`}
+              onClick={() => setSettingsOpen(v => !v)}
+              aria-label="Settings">
+              ⚙️
+            </button>
           </header>
 
           {/* Page content */}

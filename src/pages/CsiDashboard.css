@@ -435,7 +435,7 @@
 ══════════════════════════════════════════════════════════════ */
 .csi-table-wrap   { background: var(--csi-bg-card); border: 1px solid var(--csi-border); border-radius: var(--csi-radius-lg); overflow: hidden; }
 .csi-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.csi-table        { width: 100%; border-collapse: collapse; font-size: var(--csi-fs-body); }
+.csi-table        { width: 100%; min-width: 580px; border-collapse: collapse; font-size: var(--csi-fs-body); }
 
 .csi-table thead tr { background: var(--csi-bg-thead); border-bottom: 2px solid var(--csi-border); }
 .csi-table th {

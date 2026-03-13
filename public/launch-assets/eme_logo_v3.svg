@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c2b4a"/>
+      <stop offset="100%" style="stop-color:#2a3f6f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffe566"/>
+      <stop offset="100%" style="stop-color:#f0a500"/>
+    </linearGradient>
+    <linearGradient id="whitefade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#c8d8f0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="72" ry="72" fill="url(#bg)"/>
+
+  <!-- Single clean border -->
+  <rect x="14" y="14" width="484" height="484" rx="62" ry="62"
+        fill="none" stroke="rgba(255,220,80,0.5)" stroke-width="2"/>
+
+  <!-- ══ 2(A) — top, sharp condensed ══ -->
+  <text x="256" y="158"
+        text-anchor="middle"
+        font-family="'Arial Narrow','Arial',sans-serif"
+        font-size="58" font-weight="900"
+        fill="url(#gold)"
+        letter-spacing="18">2(A)</text>
+
+  <!-- Thin rule between 2(A) and EME -->
+  <rect x="96" y="172" width="320" height="2" rx="1" fill="rgba(255,220,80,0.45)"/>
+
+  <!-- ══ EME — dominant center, ultra sharp ══ -->
+  <text x="256" y="308"
+        text-anchor="middle"
+        font-family="'Arial Black','Impact',sans-serif"
+        font-size="148" font-weight="900"
+        fill="url(#whitefade)"
+        letter-spacing="-2">EME</text>
+
+  <!-- Thin rule between EME and NBKRIST -->
+  <rect x="96" y="322" width="320" height="2" rx="1" fill="rgba(255,220,80,0.45)"/>
+
+  <!-- ══ NBKRIST — bottom, sharp condensed ══ -->
+  <text x="256" y="400"
+        text-anchor="middle"
+        font-family="'Arial Narrow','Arial',sans-serif"
+        font-size="48" font-weight="900"
+        fill="url(#gold)"
+        letter-spacing="6">NBKRIST</text>
+
+</svg>

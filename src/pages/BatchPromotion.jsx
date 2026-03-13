@@ -1700,8 +1700,8 @@ function TabPromotionHistory() {
                     <tr key={l.id} style={{ borderTop: "1px solid var(--csi-bg-input)", background: i % 2 === 0 ? "transparent" : "var(--csi-bg-row-alt)" }}>
                       <td style={{ padding: "0.6rem 0.85rem", ...MONO, color: "var(--csi-text-muted)", fontSize: "0.7rem", whiteSpace: "nowrap" }}>{new Date(l.performed_at).toLocaleDateString()}</td>
                       <td style={{ padding: "0.6rem 0.85rem" }}>
-                        <p style={{ color: "var(--csi-text-primary)", fontWeight: 500, margin: "0 0 0.1rem", color: "var(--csi-text-primary)", fontSize: "0.8rem" }}>{l.cadets?.name ?? "—"}</p>
-                        <p style={{ ...MONO, color: "var(--csi-text-muted)", fontSize: "0.62rem", margin: 0 }}>{l.cadets?.enrollment_no}</p>
+                        <p style={{  fontWeight: 500, margin: "0 0 0.1rem", color: "var(--csi-text-primary)", fontSize: "0.8rem" }}>{l.cadets?.name ?? "—"}</p>
+                        <p style={{ ...MONO, fontSize: "0.62rem", margin: 0 }}>{l.cadets?.enrollment_no}</p>
                       </td>
                       <td style={{ padding: "0.6rem 0.85rem" }}>
                         <span style={{ ...MONO, fontSize: "0.62rem", background: col.bg, border: `1px solid ${col.border}`, color: col.text, borderRadius: "0.25rem", padding: "0.15rem 0.45rem", whiteSpace: "nowrap" }}>

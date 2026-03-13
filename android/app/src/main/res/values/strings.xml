@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">2(A) EME Unit - NBKRIST</string>
+    <string name="title_activity_main">2(A) EME Unit - NBKRIST</string>
+    <string name="package_name">com.emencc.unit</string>
+    <string name="custom_url_scheme">com.emencc.unit</string>
+</resources>

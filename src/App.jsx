@@ -3,6 +3,7 @@ import { supabase } from './lib/supabaseClient';
 import Login from './pages/Login';
 import AnoLayout from './layouts/AnoLayout';
 import SeniorLayout from './layouts/SeniorLayout';
+import CadetLayout from './layouts/CadetLayout';        // ← NEW
 import { ThemeProvider } from './components/ThemeContext';
 
 function App() {
@@ -22,7 +23,6 @@ function App() {
     // 2. Listen for auth changes
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
-        // Stay on login page — let Login.jsx newpass flow handle it
         setIsPasswordRecovery(true);
         setSession(null);
         setProfile(null);
@@ -30,16 +30,13 @@ function App() {
         return;
       }
       if (event === 'USER_UPDATED') {
-        // Password was updated — clear recovery flag and proceed normally
         setIsPasswordRecovery(false);
       }
       setSession(session);
       setProfile(null); // reset profile on auth change
     });
 
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+    return () => { listener.subscription.unsubscribe(); };
   }, []);
 
   // 3. Fetch profile when session exists
@@ -50,9 +47,10 @@ function App() {
       setError(null);
       const { data, error } = await supabase
         .from('profiles')
-        .select('role, assigned_category, assigned_division')
+        .select('role, assigned_category, assigned_division, cadet_id') // ← cadet_id added
         .eq('id', session.user.id)
         .single();
+
       if (error) {
         setError('Your account is not assigned a role. Contact admin.');
         setProfile(null);
@@ -64,24 +62,36 @@ function App() {
     fetchProfile();
   }, [session]);
 
-  if (loading) return <p style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>Loading…</p>;
+  if (loading) return (
+    <p style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>
+      Loading…
+    </p>
+  );
 
-  // PASSWORD_RECOVERY event — keep on login page for new password entry
   if (isPasswordRecovery) return <Login initialFlow="newpass" />;
-
-  // Not logged in
   if (!session) return <Login />;
 
-  // Logged in but no role
-  if (error) return <p style={{ color: 'red', fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>{error}</p>;
-
-  if (!profile) return <p style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>Loading profile…</p>;
+  if (error) return (
+    <p style={{ color: 'red', fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>
+      {error}
+    </p>
+  );
+  if (!profile) return (
+    <p style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>
+      Loading profile…
+    </p>
+  );
 
   // Role-based routing
-  if (profile.role === 'ano') return <AnoLayout />;
+  if (profile.role === 'ano')    return <AnoLayout />;
   if (profile.role === 'senior') return <SeniorLayout />;
+  if (profile.role === 'cadet')  return <CadetLayout />;   // ← NEW
 
-  return <p style={{ color: 'red', fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>Invalid role configuration.</p>;
+  return (
+    <p style={{ color: 'red', fontFamily: 'sans-serif', textAlign: 'center', marginTop: '3rem' }}>
+      Invalid role configuration. Contact your ANO.
+    </p>
+  );
 }
 
 export default function Root() {

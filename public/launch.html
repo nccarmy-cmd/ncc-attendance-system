@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NBKRIST NCC — Cadets Records System · Launch</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="stylesheet" href="./launch-assets/launch.css"/>
+<!-- QR code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<!-- html2canvas for poster export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<!-- Page logic (password is SHA-256 hashed — not visible in plaintext) -->
+<script src="./launch-assets/launch.js" defer></script>
+
+<style>
+/* Shake animation for failed login — local since it's a one-off */
+@keyframes shakeBox {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-8px); }
+  40%,80% { transform: translateX(8px); }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN GATE
+     ============================================================ -->
+<div id="login-gate">
+  <div class="login-bg-grid"></div>
+  <div class="login-vignette"></div>
+
+  <div class="login-box">
+    <div class="tribar"></div>
+    <div class="login-head">
+      <div class="lh-tag mono" id="lg-unit">2(A) EME UNIT NCC NBKRIST</div>
+      <h2 class="cinzel">NBKRIST NCC<br/>Cadets Records System</h2>
+      <div class="lh-sub">AUTHORISED PERSONNEL ONLY</div>
+    </div>
+
+    <div class="login-body">
+      <div class="lf">
+        <label for="lg-user">Username</label>
+        <input type="text"     id="lg-user" autocomplete="off"  placeholder="Enter username" spellcheck="false"/>
+      </div>
+      <div class="lf">
+        <label for="lg-pass">Passkey</label>
+        <input type="password" id="lg-pass" autocomplete="off"  placeholder="Enter passkey"/>
+      </div>
+      <div class="login-err" id="lg-error"></div>
+      <button class="login-btn" id="lg-btn" onclick="attemptLogin()">
+        <span>AUTHENTICATE</span>
+      </button>
+    </div>
+
+    <div class="login-footer-strip">
+      <span>2(A) EME Unit NCC</span>
+      <span>Restricted Access</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN PAGE
+     ============================================================ -->
+<div id="main-page">
+
+  <!-- ── STICKY TOP BAR ───────────────────────────────────── -->
+  <div class="top-bar">
+    <div class="tribar"></div>
+    <div class="top-bar-inner">
+      <div class="top-bar-logos">
+        <img src="./launch-assets/nbkr-logo.png"   alt="NBKRIST"  onerror="this.style.display='none'"/>
+        <img src="./launch-assets/eme_logo_v3.svg" alt="EME Unit" onerror="this.style.display='none'"/>
+      </div>
+      <div class="top-bar-divider"></div>
+      <div class="top-bar-text">
+        <div class="tb-unit mono" id="tb-unit"></div>
+        <h1 class="cinzel">NBKRIST NCC — Cadets Records System</h1>
+      </div>
+      <div class="top-bar-right">
+        <div class="version-chip mono" id="tb-version"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STAGE 1 — HERO / DESCRIPTION
+       ============================================================ -->
+  <section id="stage-hero">
+    <div class="hero-bg"></div>
+
+    <!-- Corner brackets -->
+    <div class="corner-bracket cb-tl"></div>
+    <div class="corner-bracket cb-tr"></div>
+    <div class="corner-bracket cb-bl"></div>
+    <div class="corner-bracket cb-br"></div>
+
+    <div class="hero-content">
+
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow">2(A) EME Unit NCC · NBKRIST · Launch Briefing</div>
+
+      <!-- EME Logo with rotating ring -->
+      <div class="hero-logo-wrap">
+        <div class="hero-logo-ring"></div>
+        <img class="hero-logo-img"
+          src="./launch-assets/eme_logo_v3.svg"
+          alt="EME Unit Logo"
+          onerror="this.style.display='none'"/>
+      </div>
+
+      <!-- Unit strength stats -->
+      <div class="strength-row">
+        <div class="stat-pill">
+          <div class="sp-num" id="hs-est">2017</div>
+          <div class="sp-label">Established</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill">
+          <div class="sp-num" id="hs-initial">10</div>
+          <div class="sp-label">Founded With</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill">
+          <div class="sp-num" id="hs-count">104</div>
+          <div class="sp-label">Cadets Active</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill">
+          <div class="sp-num gold">2</div>
+          <div class="sp-label">Divisions</div>
+        </div>
+      </div>
+
+      <!-- Description sentences -->
+      <div class="sentences-wrap">
+        <div class="sentence-card" id="s1"><p></p></div>
+        <div class="sentence-card" id="s2"><p></p></div>
+        <div class="sentence-card" id="s3"><p></p></div>
+        <div class="sentence-card dev" id="s4"><p></p></div>
+      </div>
+
+      <!-- ANO strip -->
+      <div class="ano-strip">
+        <img class="ano-photo"
+          src="./launch-assets/ano.jpg"
+          alt="ANO"
+          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22%3E%3Crect fill=%22%23002147%22 width=%2264%22 height=%2264%22/%3E%3Ctext x=%2232%22 y=%2238%22 text-anchor=%22middle%22 fill=%22%23d4a017%22 font-size=%2214%22 font-family=%22Rajdhani%22%3EANO%3C/text%3E%3C/svg%3E'"/>
+        <div class="ano-strip-text">
+          <div class="an-label">Associate NCC Officer</div>
+          <div class="an-name cinzel" id="ano-name"></div>
+          <div class="an-desig mono" id="ano-desig"></div>
+        </div>
+        <div class="ano-badge-wrap">
+          <div class="ab-unit">Unit</div>
+          <div class="mono gold" style="font-size:11px;letter-spacing:1px;">2(A) EME UNIT NCC</div>
+        </div>
+      </div>
+
+      <!-- Proceed to launch -->
+      <div class="proceed-btn-wrap">
+        <button class="proceed-btn" onclick="initiateLaunch()">
+          <span>INITIATE LAUNCH</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STAGE 2 — COUNTDOWN (fullscreen overlay)
+       ============================================================ -->
+  <div id="stage-countdown">
+    <div class="cd-bg-rings">
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+      <div class="cd-ring"></div>
+    </div>
+    <div class="cd-number cinzel" id="cd-num">5</div>
+    <div class="cd-label mono">SYSTEM INITIALISING</div>
+  </div>
+  <div class="triflash" id="triflash"></div>
+
+  <!-- ============================================================
+       STAGE 3 — DEPLOYED
+       ============================================================ -->
+  <div id="stage-deployed">
+
+    <!-- Deployed header -->
+    <div class="deployed-hero">
+      <div class="deployed-stamp">SYSTEM DEPLOYED</div>
+      <div class="deployed-title cinzel">NBKRIST NCC — Cadets Records System</div>
+      <div class="deployed-sub mono" id="dep-ver"></div>
+    </div>
+
+    <!-- QR codes -->
+    <div class="qr-section">
+      <div class="qr-panel" data-label="APK · ANDROID">
+        <div class="qp-label mono">APK Download · Android Install</div>
+        <div class="qr-wrap" id="qr-apk"></div>
+        <div class="qp-title cinzel">Download & Install App</div>
+        <div class="qp-sub mono">SCAN TO DOWNLOAD APK</div>
+      </div>
+      <div class="qr-panel" data-label="WEB · BROWSER">
+        <div class="qp-label mono">Web App · Browser Fallback</div>
+        <div class="qr-wrap" id="qr-web"></div>
+        <div class="qp-title cinzel">Open in Browser</div>
+        <div class="qp-sub mono">SCAN TO OPEN WEB VERSION</div>
+      </div>
+    </div>
+
+    <!-- Install steps -->
+    <div class="install-strip">
+      <div class="install-inner">
+        <div class="install-tag mono">INSTALL GUIDE</div>
+        <div class="install-step">
+          <div class="is-num">01</div>
+          <div class="is-text">
+            <strong>Scan QR Code</strong>
+            <span>Open camera app<br/>Scan the APK QR</span>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="is-num">02</div>
+          <div class="is-text">
+            <strong>Download APK</strong>
+            <span>Tap the link<br/>Download the APK file</span>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="is-num">03</div>
+          <div class="is-text">
+            <strong>Allow Install</strong>
+            <span>Settings → Security<br/>Unknown Sources → ON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-strip">
+      <button class="act-btn primary" onclick="savePoster(event)">
+        <span>↓ SAVE POSTER (WhatsApp)</span>
+      </button>
+      <button class="act-btn secondary" onclick="saveNotice(event)">
+        <span>↓ SAVE NOTICE CARD (A4 Print)</span>
+      </button>
+    </div>
+
+  </div><!-- /stage-deployed -->
+
+</div><!-- /main-page -->
+
+<!-- ============================================================
+     POSTER (off-screen, captured by html2canvas)
+     ============================================================ -->
+<div id="poster-target" aria-hidden="true">
+  <div class="p-tribar"></div>
+  <div class="p-head">
+    <img src="./launch-assets/eme_logo_v3.svg" alt="EME" onerror="this.style.display='none'"/>
+    <div>
+      <div class="ph-unit mono" id="pt-unit"></div>
+      <h2 class="cinzel">NBKRIST NCC — Cadets Records System</h2>
+      <div class="ph-college mono" id="pt-college"></div>
+    </div>
+  </div>
+  <div class="p-body">
+    <div class="p-qr-col">
+      <div class="p-qr-item">
+        <div class="pqi-label mono">APK Download · Android</div>
+        <div id="poster-qr-apk" style="width:130px;height:130px;"></div>
+        <div class="pqi-title">Download & Install</div>
+      </div>
+      <div class="p-qr-item">
+        <div class="pqi-label mono">Web App · Browser</div>
+        <div id="poster-qr-web" style="width:130px;height:130px;"></div>
+        <div class="pqi-title">Open Web Version</div>
+      </div>
+    </div>
+    <div class="p-info">
+      <div class="p-now-live mono">NOW LIVE</div>
+      <div class="p-appname cinzel">NBKRIST NCC<br/>Cadets Records System</div>
+      <div class="p-ver mono" id="pt-ver"></div>
+      <div class="p-stag mono">Installation Guide</div>
+      <ul class="p-steps">
+        <li><span class="psn">01</span> Scan APK QR with your phone camera</li>
+        <li><span class="psn">02</span> Download and open the APK file</li>
+        <li><span class="psn">03</span> Settings → Security → Unknown Sources → ON, then install</li>
+        <li><span class="psn">04</span> Use Web App QR as fallback if needed</li>
+      </ul>
+      <div class="p-dev">
+        <div class="pdl mono">Developed In-House By</div>
+        <div class="pdn cinzel" id="pt-dev"></div>
+        <div class="pdb mono" id="pt-batch"></div>
+      </div>
+    </div>
+  </div>
+  <div class="p-foot mono" id="pt-foot"></div>
+</div>
+
+<!-- ============================================================
+     NOTICE CARD (off-screen, A4)
+     ============================================================ -->
+<div id="notice-target" aria-hidden="true">
+  <div class="nc-topbar"></div>
+  <div class="nc-head">
+    <img src="./launch-assets/nbkr-logo.png"   alt="NBKRIST" onerror="this.style.display='none'"/>
+    <img src="./launch-assets/eme_logo_v3.svg" alt="EME"     onerror="this.style.display='none'"/>
+    <div class="nc-head-t">
+      <div class="ncht-unit mono" id="nc-unit"></div>
+      <h2 class="cinzel">NBKRIST NCC — Cadets Records System</h2>
+      <div class="ncht-col mono" id="nc-college"></div>
+    </div>
+  </div>
+  <div class="nc-body">
+    <div class="nc-title cinzel">INSTALLATION NOTICE</div>
+    <div class="nc-sub mono">SCAN QR CODE TO INSTALL OR ACCESS THE APPLICATION</div>
+    <div class="nc-qr-row">
+      <div class="nc-qr-item">
+        <div class="ncqi-label mono">APK DOWNLOAD · ANDROID</div>
+        <div id="notice-qr-apk" style="width:150px;height:150px;"></div>
+        <div class="ncqi-title cinzel">Download & Install App</div>
+      </div>
+      <div class="nc-qr-item">
+        <div class="ncqi-label mono">WEB APP · BROWSER</div>
+        <div id="notice-qr-web" style="width:150px;height:150px;"></div>
+        <div class="ncqi-title cinzel">Open in Browser</div>
+      </div>
+    </div>
+    <div class="nc-steps">
+      <h4 class="mono">Installation Steps</h4>
+      <ul class="nc-slist">
+        <li><span class="ncn">01</span> Scan the APK QR code with your phone camera</li>
+        <li><span class="ncn">02</span> Download and open the APK file on your device</li>
+        <li><span class="ncn">03</span> Enable Unknown Sources: Settings → Security → Unknown Sources → ON, then install</li>
+        <li><span class="ncn">04</span> Use the Web App QR as fallback if APK installation fails</li>
+      </ul>
+    </div>
+    <div class="nc-foot">
+      <div class="nc-dev-credit">
+        <div class="ncdc-lbl mono">Developed In-House By</div>
+        <div class="ncdc-name cinzel" id="nc-dev"></div>
+        <div class="ncdc-batch mono" id="nc-batch"></div>
+      </div>
+      <div>
+        <div class="nc-ver-badge mono" id="nc-ver"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
